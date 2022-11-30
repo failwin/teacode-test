@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { SxProps, Theme } from '@mui/material/styles';
 import { Header } from '../components/Header';
 import { SearchBar } from '../components/SearchBar';
@@ -23,7 +22,10 @@ export const Contacts = ({ sx = [] }: ContactsProps) => {
 
   return (
     <Box
-      sx={[{ maxWidth: 1000, m: '0 auto' }, ...(Array.isArray(sx) ? sx : [sx])]}
+      sx={[
+        { display: 'flex', flexDirection: 'column', width: '100%' },
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
     >
       <Header>Contacts</Header>
       <SearchBar />

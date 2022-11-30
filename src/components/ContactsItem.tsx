@@ -28,7 +28,8 @@ export const ContactsItem = ({ sx = [], contact }: ContactsItemProps) => {
 
   return (
     <ListItem
-      sx={[{}, ...(Array.isArray(sx) ? sx : [sx])]}
+      sx={[{ height: 75 }, ...(Array.isArray(sx) ? sx : [sx])]}
+      component="div"
       secondaryAction={
         <Checkbox edge="end" onChange={handleToggle} checked={isHighlighted} />
       }

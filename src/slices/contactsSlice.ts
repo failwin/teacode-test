@@ -1,9 +1,4 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  createSelector,
-  PayloadAction,
-} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppDispatch } from '../store';
 import { dataProvider, Contact, Id } from '../services/dataProvider';
 
@@ -21,7 +16,7 @@ export const fetchContacts = createAsyncThunk<
   Contact[],
   string,
   { state: RootState; dispatch: AppDispatch }
->('posts/fetchPosts', async (searchQuery: string) => {
+>('fetchContacts', async (searchQuery: string) => {
   return await dataProvider.getContacts(searchQuery);
 });
 
@@ -60,6 +55,7 @@ export const contactsSlice = createSlice({
       })
       .addCase(fetchContacts.rejected, (state, action) => {
         state.loading = false;
+        state.list = [];
         state.error = action.error.message;
       });
   },

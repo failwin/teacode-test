@@ -35,12 +35,13 @@ class DataProvider {
       }
       this.data = await res.json();
     }
-    return this.data!;
+    return [...(this.data || [])];
   }
 
   private filterByQuery(item: Contact, query: string) {
-    const queryLower = query.toLowerCase();
     const { first_name, last_name } = item;
+    const queryLower = query.toLowerCase();
+
     if (first_name && first_name.toLowerCase().includes(queryLower)) {
       return true;
     }
