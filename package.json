@@ -1,7 +1,6 @@
 {
-  "name": "tea-code-test",
-  "private": true,
-  "version": "0.0.0",
+  "name": "teacode-test",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -16,7 +15,6 @@
     "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.16",
     "@reduxjs/toolkit": "^1.9.1",
-    "@types/react-window": "^1.8.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
@@ -25,6 +23,7 @@
   "devDependencies": {
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
+    "@types/react-window": "^1.8.5",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "@vitejs/plugin-react": "^2.2.0",
