@@ -1,41 +1,25 @@
-import React, { useEffect } from 'react';
-import { Box, Link as MuiLink, Typography } from '@mui/material';
+import React from 'react';
+import Box from '@mui/material/Box';
+import List from '@mui/material/List';
 import { SxProps, Theme } from '@mui/material/styles';
-import { selectAll, selectSearchQuery } from '../slices/contactsSlice';
-import { useAppDispatch, useAppSelector } from '../store';
+import { ContactsItem } from './ContactsItem';
+import { selectAll } from '../slices/contactsSlice';
+import { useAppSelector } from '../store';
 
 export interface ContactsListProps {
-  children?: React.ReactNode;
   sx?: SxProps<Theme>;
 }
 
 export const ContactsList = ({ sx = [] }: ContactsListProps) => {
   const list = useAppSelector(selectAll);
-  const searchQuery = useAppSelector(selectSearchQuery);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    console.log('list + search');
-  }, [list, searchQuery]);
 
   return (
-    <Box
-      component="div"
-      sx={[
-        {
-          width: 'auto',
-          textDecoration: 'underline',
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-    >
-      {list.map((contact) => {
-        return (
-          <div key={contact.id}>
-            {contact.id} {contact.first_name} {contact.last_name}
-          </div>
-        );
-      })}
+    <Box component="div" sx={[{}, ...(Array.isArray(sx) ? sx : [sx])]}>
+      <List sx={{ p: 0 }}>
+        {list.map((contact) => {
+          return <ContactsItem key={contact.id} contact={contact} />;
+        })}
+      </List>
     </Box>
   );
 };

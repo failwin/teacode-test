@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Contacts } from './components/Contacts';
+import { Contacts } from './pages/Contacts';
 
 function App() {
   return <Contacts />;

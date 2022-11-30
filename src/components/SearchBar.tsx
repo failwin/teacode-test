@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { Box, Link as MuiLink, Typography } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch, useAppSelector } from '../store';
 import { selectSearchQuery, applySearch } from '../slices/contactsSlice';
 
@@ -11,7 +13,7 @@ export interface SearchBarProps {
 }
 
 export const SearchBar = ({ sx = [] }: SearchBarProps) => {
-  const query = useAppSelector(selectSearchQuery);
+  const searchQuery = useAppSelector(selectSearchQuery);
   const dispatch = useAppDispatch();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +23,18 @@ export const SearchBar = ({ sx = [] }: SearchBarProps) => {
 
   return (
     <Box component="div" sx={[{}, ...(Array.isArray(sx) ? sx : [sx])]}>
-      <TextField label="Required" value={query} onChange={onChange} />
+      <TextField
+        value={searchQuery}
+        onChange={onChange}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+        fullWidth
+      />
     </Box>
   );
 };

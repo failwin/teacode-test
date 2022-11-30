@@ -5,10 +5,13 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 import { RootState, AppDispatch } from '../store';
-import { dataProvider, Contact } from '../services/dataProvider';
+import { dataProvider, Contact, Id } from '../services/dataProvider';
 
-type SliceState = {
+export type { Contact } from '../services/dataProvider';
+
+export type SliceState = {
   list: Contact[];
+  highlighted: Id[];
   query: string;
   loading?: boolean;
   error?: string;
@@ -26,11 +29,24 @@ export const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
     list: [],
+    highlighted: [],
     query: '',
   } as SliceState,
   reducers: {
     applySearch: (state, action: PayloadAction<string>) => {
       state.query = action.payload;
+    },
+    toggleHighlight: (state, action: PayloadAction<Id>) => {
+      const { highlighted } = state;
+      const index = highlighted.indexOf(action.payload);
+      if (index === -1) {
+        // add
+        state.highlighted = [...highlighted, action.payload];
+      } else {
+        // remove
+        state.highlighted = [...highlighted];
+        state.highlighted.splice(index, 1);
+      }
     },
   },
   extraReducers(builder) {
@@ -49,16 +65,22 @@ export const contactsSlice = createSlice({
   },
 });
 
-export const { applySearch } = contactsSlice.actions;
+export const { applySearch, toggleHighlight } = contactsSlice.actions;
 
 export const selectSearchQuery = (state: RootState) => state.contacts.query;
+
+export const selectIsHighlighted = (id: Id) => (state: RootState) => {
+  return state.contacts.highlighted.indexOf(id) !== -1;
+};
 
 export const selectAll = createSelector(
   (state: RootState) => state.contacts.list,
   selectSearchQuery,
-  (list, query) => {
-    if (query) {
-      return list.filter((item) => dataProvider.filterByQuery(item, query));
+  (list, searchQuery) => {
+    if (searchQuery) {
+      return list.filter((item) =>
+        dataProvider.filterByQuery(item, searchQuery)
+      );
     }
     return list;
   }

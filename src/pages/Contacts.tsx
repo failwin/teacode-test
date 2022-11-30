@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { SxProps, Theme } from '@mui/material/styles';
-import { ContactsList } from './ContactsList';
-import { SearchBar } from './SearchBar';
+import { Header } from '../components/Header';
+import { SearchBar } from '../components/SearchBar';
+import { ContactsList } from '../components/ContactsList';
 import { fetchContacts } from '../slices/contactsSlice';
 import { useAppDispatch } from '../store';
 
@@ -19,7 +21,10 @@ export const Contacts = ({ sx = [] }: ContactsProps) => {
   }, [dispatch]);
 
   return (
-    <Box component="div" sx={sx}>
+    <Box
+      sx={[{ maxWidth: 1000, m: '0 auto' }, ...(Array.isArray(sx) ? sx : [sx])]}
+    >
+      <Header>Contacts</Header>
       <SearchBar />
       <ContactsList />
     </Box>
