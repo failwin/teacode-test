@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { FixedSizeList } from 'react-window';
 import Box from '@mui/material/Box';
 import { SxProps, Theme } from '@mui/material/styles';
 import { ContactsItem } from './ContactsItem';
 import { selectAll } from '../slices/contactsSlice';
 import { useAppSelector } from '../store';
-import { FixedSizeList } from 'react-window';
 
 export interface ContactsListProps {
   sx?: SxProps<Theme>;

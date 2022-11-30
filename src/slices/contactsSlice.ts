@@ -65,6 +65,8 @@ export const { applySearch, toggleHighlight } = contactsSlice.actions;
 
 export const selectAll = (state: RootState) => state.contacts.list;
 
+export const selectLoading = (state: RootState) => state.contacts.loading;
+
 export const selectSearchQuery = (state: RootState) => state.contacts.query;
 
 export const selectIsHighlighted = (id: Id) => (state: RootState) => {

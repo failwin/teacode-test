@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import { Contacts } from './pages/Contacts';
 
 function App() {
