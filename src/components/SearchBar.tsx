@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Box, Link as MuiLink, Typography } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
@@ -13,18 +13,30 @@ export interface SearchBarProps {
 }
 
 export const SearchBar = ({ sx = [] }: SearchBarProps) => {
+  const timer = useRef<number>(0);
   const searchQuery = useAppSelector(selectSearchQuery);
+  const [value, setValue] = useState(searchQuery);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    setValue(searchQuery);
+  }, [searchQuery]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newQuery = e.target.value;
-    dispatch(applySearch(newQuery));
+    setValue(newQuery);
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
+    timer.current = setTimeout(() => {
+      dispatch(applySearch(newQuery));
+    }, 500);
   };
 
   return (
     <Box component="div" sx={[{}, ...(Array.isArray(sx) ? sx : [sx])]}>
       <TextField
-        value={searchQuery}
+        value={value}
         onChange={onChange}
         InputProps={{
           startAdornment: (

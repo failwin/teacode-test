@@ -19,10 +19,10 @@ export type SliceState = {
 
 export const fetchContacts = createAsyncThunk<
   Contact[],
-  void,
+  string,
   { state: RootState; dispatch: AppDispatch }
->('posts/fetchPosts', async () => {
-  return await dataProvider.getContacts();
+>('posts/fetchPosts', async (searchQuery: string) => {
+  return await dataProvider.getContacts(searchQuery);
 });
 
 export const contactsSlice = createSlice({
@@ -67,23 +67,12 @@ export const contactsSlice = createSlice({
 
 export const { applySearch, toggleHighlight } = contactsSlice.actions;
 
+export const selectAll = (state: RootState) => state.contacts.list;
+
 export const selectSearchQuery = (state: RootState) => state.contacts.query;
 
 export const selectIsHighlighted = (id: Id) => (state: RootState) => {
   return state.contacts.highlighted.indexOf(id) !== -1;
 };
-
-export const selectAll = createSelector(
-  (state: RootState) => state.contacts.list,
-  selectSearchQuery,
-  (list, searchQuery) => {
-    if (searchQuery) {
-      return list.filter((item) =>
-        dataProvider.filterByQuery(item, searchQuery)
-      );
-    }
-    return list;
-  }
-);
 
 export default contactsSlice;

@@ -8,18 +8,37 @@ export type Contact = {
   avatar: string | null;
 };
 
-export const dataProvider = {
-  async getContacts(): Promise<Contact[]> {
-    const res = await fetch(
-      'https://teacode-recruitment-challenge.s3.eu-central-1.amazonaws.com/users.json'
-    );
-    if (!res.ok) {
-      throw new Error(res.statusText);
+class DataProvider {
+  private data: Contact[] | undefined;
+
+  async getContacts(query: string): Promise<Contact[]> {
+    let list = await this.loadContacts();
+    if (query) {
+      list = list.filter((item) => this.filterByQuery(item, query));
     }
-    const list = await res.json();
+    list.sort((a, b) => {
+      if (a.last_name === b.last_name) {
+        return 0;
+      }
+      return a.last_name > b.last_name ? 1 : -1;
+    });
     return list;
-  },
-  filterByQuery(item: Contact, query: string) {
+  }
+
+  private async loadContacts() {
+    if (!this.data) {
+      const res = await fetch(
+        'https://teacode-recruitment-challenge.s3.eu-central-1.amazonaws.com/users.json'
+      );
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      this.data = await res.json();
+    }
+    return this.data!;
+  }
+
+  private filterByQuery(item: Contact, query: string) {
     const queryLower = query.toLowerCase();
     const { first_name, last_name } = item;
     if (first_name && first_name.toLowerCase().includes(queryLower)) {
@@ -29,5 +48,7 @@ export const dataProvider = {
       return true;
     }
     return false;
-  },
-};
+  }
+}
+
+export const dataProvider = new DataProvider();

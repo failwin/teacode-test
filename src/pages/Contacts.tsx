@@ -5,8 +5,8 @@ import { SxProps, Theme } from '@mui/material/styles';
 import { Header } from '../components/Header';
 import { SearchBar } from '../components/SearchBar';
 import { ContactsList } from '../components/ContactsList';
-import { fetchContacts } from '../slices/contactsSlice';
-import { useAppDispatch } from '../store';
+import { fetchContacts, selectSearchQuery } from '../slices/contactsSlice';
+import { useAppDispatch, useAppSelector } from '../store';
 
 export interface ContactsProps {
   children?: React.ReactNode;
@@ -15,10 +15,11 @@ export interface ContactsProps {
 
 export const Contacts = ({ sx = [] }: ContactsProps) => {
   const dispatch = useAppDispatch();
+  const searchQuery = useAppSelector(selectSearchQuery);
 
   useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
+    dispatch(fetchContacts(searchQuery));
+  }, [dispatch, searchQuery]);
 
   return (
     <Box

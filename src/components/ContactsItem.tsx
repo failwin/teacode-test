@@ -55,7 +55,7 @@ export const ContactsItem = ({ sx = [], contact }: ContactsItemProps) => {
         </ListItemAvatar>
         <ListItemText
           id={`${contact.id}`}
-          primary={`Line item ${contact.first_name}`}
+          primary={`${contact.first_name} ${contact.last_name}`}
           secondary={contact.email}
         />
       </ListItemButton>
