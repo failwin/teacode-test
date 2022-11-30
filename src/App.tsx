@@ -1,12 +1,7 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 function App() {
-
-  return (
-    <div className="App">
-      APP
-    </div>
-  )
+  return <div className="App">APP</div>;
 }
 
-export default App
+export default App;
